@@ -2,6 +2,7 @@ import '../css/style.css';
 import {csv} from 'd3-fetch';
 import {keys, pick, merge} from 'lodash';
 import {viz, addAxis, genScaleX} from './viz';
+import { axisBottom, axisTop } from 'd3-axis';
 
 const cl = console.log;
 const WHEEL_CIRCUM = 2.1;
@@ -39,7 +40,7 @@ const minMaxRollOuts = (bikes) => {
       minMax[1] = ro > minMax[1] ? ro : minMax[1];
     })
   });
-  return minMax;
+  return [minMax[0] - 0.5, minMax[1] + 0.5];
 }
 
 const computeRollOut = ({chainRings, cogs}) => {
@@ -63,26 +64,40 @@ window.onload = () => {
   const bikes = addRollOuts(BIKES);
   const minMax = minMaxRollOuts(bikes);
   const xScale = genScaleX(minMax, width);
+  const bgColors = ["lightcoral", "lightblue", "lightgrey", "lightyellow"];
 
-  console.log(bikes);
-
-  viz({
-    elementIDSel: "#viz",
-    data: bikes[0],
-    minMax, 
-    width,
-    height: 20,
-    background: 'cyanLight',
-    xLabel: 'fooo',
-    xScale,
+  bikes.forEach((b, idx) => {
+    viz({
+      elementIDSel: "#viz" + idx,
+      data: b,
+      minMax, 
+      width,
+      height: 20,
+      background: bgColors[idx],
+      xLabel: 'fooo',
+      xScale,
+    });
   });
 
   addAxis({
     xScale,
     xNumTicks: 20,
-    elementIDSel: '#axis',
-    xLabel: 'Label here',
+    elementIDSel: '#axis-bottom',
+    xLabel: '',
     width,
-    height: 100,
+    height: 50,
+    axisGen: axisBottom,
+    axisType: "bottom",
+  });
+
+  addAxis({
+    xScale,
+    xNumTicks: 20,
+    elementIDSel: '#axis-top',
+    xLabel: '',
+    width,
+    height: 50,
+    axisGen: axisTop,
+    axisType: "top",
   });
 };

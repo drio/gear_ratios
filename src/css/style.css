@@ -30,13 +30,16 @@ pre {
   margin-top: 0px;
 }
 
-#viz {
+.viz {
   /*display: block;*/
   /*padding: 10px;*/
-  border: 0px solid lightGrey;
+  border: 4px solid black;
 }
 
-#axis {
+.axis {
   border: 0px solid lightGreen;
   height: 50px;
+}
+
+.axis-top {
 }
