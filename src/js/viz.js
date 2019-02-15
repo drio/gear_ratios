@@ -23,10 +23,7 @@ export const addAxis = ({ width, height, xScale, xNumTicks, elementIDSel, xLabel
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  svg.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0,0)")
-    .call(xAxis)
+  svg.call(xAxis)
     .append("text")
       .text(xLabel)
       .attr("fill", "black")
