@@ -1,6 +1,7 @@
 import {csv} from 'd3-fetch';
 import {keys, pick, merge} from 'lodash';
 import { axisBottom, axisTop } from 'd3-axis';
+import { select, selectAll } from 'd3-selection';
 
 import '../css/style.css';
 import {viz, addAxis, genScaleX} from './viz';
@@ -41,7 +42,18 @@ window.onload = () => {
   const bikes = addRollOuts(BIKES);
   const minMax = minMaxRollOuts(bikes);
   const xScale = genScaleX(minMax, width);
-  const bgColors = ["lightcoral", "lightblue", "lightgrey", "lightyellow"];
+  const bgColors = ["lightcoral", "lightblue", "peachpuff", "lightyellow"];
+
+  ["#bike-names-container-left", "#bike-names-container-right"].forEach(selName => {
+    select(selName)
+      .selectAll("div")
+      .data(BIKES)
+      .enter()
+        .append('div')
+        .attr('class', 'name')
+        .attr('id', (d, i) => 'bike' + i)
+        .html((d) => d.name);
+  });
 
   bikes.forEach((b, idx) => {
     viz({
