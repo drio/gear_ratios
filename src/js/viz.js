@@ -46,7 +46,9 @@ export const viz = (opts) => {
         xNumTicks = opts.xNumTicks || 20,
         yNumTicks = opts.yNumTicks || 20;
 
- if (opts.background)
+  const barHeight = 10, barWidth = 1;
+
+  if (opts.background)
     select(opts.elementIDSel).style("background", opts.background);
 
   const svg = select(opts.elementIDSel)
@@ -61,9 +63,9 @@ export const viz = (opts) => {
     .enter()
       .append("rect")
       .attr('x', (d) => opts.xScale(d))
-      .attr('y', 10)
+      .attr('y', opts.height/2 - (barHeight/2) + 5)
       .attr('fill', (d) => d.fill || 'black')
       .attr('stroke', 'black')
-      .attr('height', 15)
-      .attr("width", 2);
+      .attr('height', barHeight)
+      .attr("width", barWidth);
 }
