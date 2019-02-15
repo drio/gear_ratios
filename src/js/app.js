@@ -1,6 +1,7 @@
 import '../css/style.css';
 import {csv} from 'd3-fetch';
 import {keys, pick, merge} from 'lodash';
+import {viz, addAxis, genScaleX} from './viz';
 
 const cl = console.log;
 const WHEEL_CIRCUM = 2.1;
@@ -51,13 +52,37 @@ const computeRollOut = ({chainRings, cogs}) => {
   return rollOuts.sort();
 }
 
-const bikesWithRollouts = () => {
+const addRollOuts = () => {
   return BIKES.map(b => { 
     return merge(b, {rollOuts: computeRollOut(b)})
   });
 }
 
 window.onload = () => {
-  console.log(bikesWithRollouts());
-  console.log(minMaxRollOuts(BIKES));
+  const width = 800;
+  const bikes = addRollOuts(BIKES);
+  const minMax = minMaxRollOuts(bikes);
+  const xScale = genScaleX(minMax, width);
+
+  console.log(bikes);
+
+  viz({
+    elementIDSel: "#viz",
+    data: bikes[0],
+    minMax, 
+    width,
+    height: 20,
+    background: 'cyanLight',
+    xLabel: 'fooo',
+    xScale,
+  });
+
+  addAxis({
+    xScale,
+    xNumTicks: 20,
+    elementIDSel: '#axis',
+    xLabel: 'Label here',
+    width,
+    height: 100,
+  });
 };
