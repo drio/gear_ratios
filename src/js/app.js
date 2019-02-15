@@ -30,6 +30,17 @@ const BIKES = [
   }
 ];
 
+const minMaxRollOuts = (bikes) => {
+  const minMax = [Infinity, 0];
+  bikes.forEach(b => {
+    b.rollOuts.forEach(ro => {
+      minMax[0] = ro < minMax[0] ? ro : minMax[0];
+      minMax[1] = ro > minMax[1] ? ro : minMax[1];
+    })
+  });
+  return minMax;
+}
+
 const computeRollOut = ({chainRings, cogs}) => {
   const rollOuts = [];
   chainRings.forEach(ringNumTeeth => {
@@ -48,4 +59,5 @@ const bikesWithRollouts = () => {
 
 window.onload = () => {
   console.log(bikesWithRollouts());
+  console.log(minMaxRollOuts(BIKES));
 };
